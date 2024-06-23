@@ -5,7 +5,7 @@
 ## How to use this fork
 
 ```ruby
-pod 'apple-swift-markdown', git: 'https://github.com/pleisto/swifit-markdown-cocoapods.git', branch: 'main' 
+pod 'apple-swift-markdown', git: 'https://github.com/pleisto/swift-markdown-cocoapods.git', branch: 'main' 
 ```
 
 ----
