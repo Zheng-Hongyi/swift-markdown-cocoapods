@@ -10,38 +10,39 @@
 
 /// A soft break.
 public struct SoftBreak: RecurringInlineMarkup {
-    public var _data: _MarkupData
+  public var _data: _MarkupData
 
-    init(_ raw: RawMarkup) throws {
-        guard case .softBreak = raw.data else {
-            throw RawMarkup.Error.concreteConversionError(from: raw, to: SoftBreak.self)
-        }
-        let absoluteRaw = AbsoluteRawMarkup(markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
-        self.init(_MarkupData(absoluteRaw))
+  init(_ raw: RawMarkup) throws {
+    guard case .softBreak = raw.data else {
+      throw RawMarkup.Error.concreteConversionError(from: raw, to: SoftBreak.self)
     }
+    let absoluteRaw = AbsoluteRawMarkup(
+      markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
+    self.init(_MarkupData(absoluteRaw))
+  }
 
-    init(_ data: _MarkupData) {
-        self._data = data
-    }
+  init(_ data: _MarkupData) {
+    self._data = data
+  }
 }
 
 // MARK: - Public API
 
-public extension SoftBreak {
-    /// Create a soft line break.
-    init() {
-        try! self.init(.softBreak(parsedRange: nil))
-    }
+extension SoftBreak {
+  /// Create a soft line break.
+  public init() {
+    try! self.init(.softBreak(parsedRange: nil))
+  }
 
-    // MARK: PlainTextConvertibleMarkup
+  // MARK: PlainTextConvertibleMarkup
 
-    var plainText: String {
-        return " "
-    }
+  public var plainText: String {
+    return " "
+  }
 
-    // MARK: Visitation
+  // MARK: Visitation
 
-    func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
-        return visitor.visitSoftBreak(self)
-    }
+  public func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
+    return visitor.visitSoftBreak(self)
+  }
 }

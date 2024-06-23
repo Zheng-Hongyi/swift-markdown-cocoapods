@@ -23,56 +23,59 @@ import Foundation
 /// documentation.
 /// ```
 public struct DoxygenParameter: BlockContainer {
-    public var _data: _MarkupData
+  public var _data: _MarkupData
 
-    init(_ raw: RawMarkup) throws {
-        guard case .doxygenParam = raw.data else {
-            throw RawMarkup.Error.concreteConversionError(from: raw, to: DoxygenParameter.self)
-        }
-        let absoluteRaw = AbsoluteRawMarkup(markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
-        self.init(_MarkupData(absoluteRaw))
+  init(_ raw: RawMarkup) throws {
+    guard case .doxygenParam = raw.data else {
+      throw RawMarkup.Error.concreteConversionError(from: raw, to: DoxygenParameter.self)
     }
+    let absoluteRaw = AbsoluteRawMarkup(
+      markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
+    self.init(_MarkupData(absoluteRaw))
+  }
 
-    init(_ data: _MarkupData) {
-        self._data = data
-    }
+  init(_ data: _MarkupData) {
+    self._data = data
+  }
 
-    public func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
-        return visitor.visitDoxygenParameter(self)
-    }
+  public func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
+    return visitor.visitDoxygenParameter(self)
+  }
 }
 
-public extension DoxygenParameter {
-    /// Create a new Doxygen parameter definition.
-    ///
-    /// - Parameter name: The name of the parameter being described.
-    /// - Parameter children: Block child elements.
-    init<Children: Sequence>(name: String, children: Children) where Children.Element == BlockMarkup {
-        try! self.init(.doxygenParam(name: name, parsedRange: nil, children.map({ $0.raw.markup })))
-    }
+extension DoxygenParameter {
+  /// Create a new Doxygen parameter definition.
+  ///
+  /// - Parameter name: The name of the parameter being described.
+  /// - Parameter children: Block child elements.
+  public init<Children: Sequence>(name: String, children: Children)
+  where Children.Element == BlockMarkup {
+    try! self.init(.doxygenParam(name: name, parsedRange: nil, children.map({ $0.raw.markup })))
+  }
 
-    /// Create a new Doxygen parameter definition.
-    ///
-    /// - Parameter name: The name of the parameter being described.
-    /// - Parameter children: Block child elements.
-    init(name: String, children: BlockMarkup...) {
-        self.init(name: name, children: children)
-    }
+  /// Create a new Doxygen parameter definition.
+  ///
+  /// - Parameter name: The name of the parameter being described.
+  /// - Parameter children: Block child elements.
+  public init(name: String, children: BlockMarkup...) {
+    self.init(name: name, children: children)
+  }
 
-    /// The name of the parameter being described.
-    var name: String {
-        get {
-            guard case let .doxygenParam(name) = _data.raw.markup.data else {
-                fatalError("\(self) markup wrapped unexpected \(_data.raw)")
-            }
-            return name
-        }
-        set {
-            _data = _data.replacingSelf(.doxygenParam(
-                name: newValue,
-                parsedRange: nil,
-                _data.raw.markup.copyChildren()
-            ))
-        }
+  /// The name of the parameter being described.
+  public var name: String {
+    get {
+      guard case let .doxygenParam(name) = _data.raw.markup.data else {
+        fatalError("\(self) markup wrapped unexpected \(_data.raw)")
+      }
+      return name
     }
+    set {
+      _data = _data.replacingSelf(
+        .doxygenParam(
+          name: newValue,
+          parsedRange: nil,
+          _data.raw.markup.copyChildren()
+        ))
+    }
+  }
 }

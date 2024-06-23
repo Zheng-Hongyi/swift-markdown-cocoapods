@@ -10,6 +10,6 @@
 
 /// An element that is represented with just some plain text.
 public protocol LiteralMarkup: Markup {
-    /// Create an element from its literal text.
-    init(_ literalText: String)
+  /// Create an element from its literal text.
+  init(_ literalText: String)
 }

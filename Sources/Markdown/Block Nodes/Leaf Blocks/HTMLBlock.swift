@@ -10,43 +10,44 @@
 
 /// A block element containing raw HTML.
 public struct HTMLBlock: BlockMarkup, LiteralMarkup {
-    public var _data: _MarkupData
-    init(_ raw: RawMarkup) throws {
-        guard case .htmlBlock = raw.data else {
-            throw RawMarkup.Error.concreteConversionError(from: raw, to: HTMLBlock.self)
-        }
-        let absoluteRaw = AbsoluteRawMarkup(markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
-        self.init(_MarkupData(absoluteRaw))
+  public var _data: _MarkupData
+  init(_ raw: RawMarkup) throws {
+    guard case .htmlBlock = raw.data else {
+      throw RawMarkup.Error.concreteConversionError(from: raw, to: HTMLBlock.self)
     }
+    let absoluteRaw = AbsoluteRawMarkup(
+      markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
+    self.init(_MarkupData(absoluteRaw))
+  }
 
-    init(_ data: _MarkupData) {
-        self._data = data
-    }
+  init(_ data: _MarkupData) {
+    self._data = data
+  }
 }
 
 // MARK: - Public API
 
-public extension HTMLBlock {
-    init(_ literalText: String) {
-        try! self.init(.htmlBlock(parsedRange: nil, html: literalText))
-    }
+extension HTMLBlock {
+  public init(_ literalText: String) {
+    try! self.init(.htmlBlock(parsedRange: nil, html: literalText))
+  }
 
-    /// The raw HTML text comprising the block.
-    var rawHTML: String {
-        get {
-            guard case let .htmlBlock(text) = _data.raw.markup.data else {
-                fatalError("\(self) markup wrapped unexpected \(_data.raw)")
-            }
-            return text
-        }
-        set {
-            _data = _data.replacingSelf(.htmlBlock(parsedRange: nil, html: newValue))
-        }
+  /// The raw HTML text comprising the block.
+  public var rawHTML: String {
+    get {
+      guard case let .htmlBlock(text) = _data.raw.markup.data else {
+        fatalError("\(self) markup wrapped unexpected \(_data.raw)")
+      }
+      return text
     }
-
-    // MARK: Visitation
-
-    func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
-        return visitor.visitHTMLBlock(self)
+    set {
+      _data = _data.replacingSelf(.htmlBlock(parsedRange: nil, html: newValue))
     }
+  }
+
+  // MARK: Visitation
+
+  public func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
+    return visitor.visitHTMLBlock(self)
+  }
 }

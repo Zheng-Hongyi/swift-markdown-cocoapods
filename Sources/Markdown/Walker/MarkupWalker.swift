@@ -12,15 +12,15 @@
 public protocol MarkupWalker: MarkupVisitor where Result == Void {}
 
 extension MarkupWalker {
-    /// Continue walking by descending in the given element.
-    /// 
-    /// - Parameter markup: the element whose children the walker should visit.
-    public mutating func descendInto(_ markup: Markup) {
-        for child in markup.children {
-            visit(child)
-        }
+  /// Continue walking by descending in the given element.
+  ///
+  /// - Parameter markup: the element whose children the walker should visit.
+  public mutating func descendInto(_ markup: Markup) {
+    for child in markup.children {
+      visit(child)
     }
-    public mutating func defaultVisit(_ markup: Markup) {
-        descendInto(markup)
-    }
+  }
+  public mutating func defaultVisit(_ markup: Markup) {
+    descendInto(markup)
+  }
 }

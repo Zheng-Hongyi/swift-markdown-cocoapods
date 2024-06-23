@@ -1,5 +1,15 @@
 # Swift Markdown
 
+> Note: This fork of [apple/swift-markdown](https://github.com/apple/swift-markdown) is used to publish the library to CocoaPods. The original README is below.
+
+## How to use this fork
+
+```ruby
+pod 'apple-swift-markdown', git: 'https://github.com/pleisto/swifit-markdown-cocoapods.git', branch: 'main' 
+```
+
+----
+
 Swift `Markdown` is a Swift package for parsing, building, editing, and analyzing Markdown documents.
 
 The parser is powered by GitHub-flavored Markdown's [cmark-gfm](https://github.com/github/cmark-gfm) implementation, so it follows the spec closely. As the needs of the community change, the effective dialect implemented by this library may change.

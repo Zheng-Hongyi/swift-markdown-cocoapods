@@ -10,54 +10,56 @@
 */
 
 import PackageDescription
+
 import class Foundation.ProcessInfo
 
-let cmarkPackageName = ProcessInfo.processInfo.environment["SWIFTCI_USE_LOCAL_DEPS"] == nil ? "swift-cmark" : "cmark"
+let cmarkPackageName =
+  ProcessInfo.processInfo.environment["SWIFTCI_USE_LOCAL_DEPS"] == nil ? "swift-cmark" : "cmark"
 
 let package = Package(
-    name: "swift-markdown",
-    products: [
-        .library(
-            name: "Markdown",
-            targets: ["Markdown"]),
-    ],
-    targets: [
-        .target(
-            name: "Markdown",
-            dependencies: [
-                "CAtomic",
-                .product(name: "cmark-gfm", package: cmarkPackageName),
-                .product(name: "cmark-gfm-extensions", package: cmarkPackageName),
-            ], 
-            exclude: [
-                "CMakeLists.txt"
-            ]),
-        .testTarget(
-            name: "MarkdownTests",
-            dependencies: ["Markdown"],
-            resources: [.process("Visitors/Everything.md")]),
-        .target(name: "CAtomic"),
-    ]
+  name: "swift-markdown",
+  products: [
+    .library(
+      name: "Markdown",
+      targets: ["Markdown"])
+  ],
+  targets: [
+    .target(
+      name: "Markdown",
+      dependencies: [
+        "CAtomic",
+        .product(name: "cmark-gfm", package: cmarkPackageName),
+        .product(name: "cmark-gfm-extensions", package: cmarkPackageName),
+      ],
+      exclude: [
+        "CMakeLists.txt"
+      ]),
+    .testTarget(
+      name: "MarkdownTests",
+      dependencies: ["Markdown"],
+      resources: [.process("Visitors/Everything.md")]),
+    .target(name: "CAtomic"),
+  ]
 )
 
 // If the `SWIFTCI_USE_LOCAL_DEPS` environment variable is set,
 // we're building in the Swift.org CI system alongside other projects in the Swift toolchain and
 // we can depend on local versions of our dependencies instead of fetching them remotely.
 if ProcessInfo.processInfo.environment["SWIFTCI_USE_LOCAL_DEPS"] == nil {
-    // Building standalone, so fetch all dependencies remotely.
+  // Building standalone, so fetch all dependencies remotely.
+  package.dependencies += [
+    .package(url: "https://github.com/apple/swift-cmark.git", branch: "gfm")
+  ]
+
+  // SwiftPM command plugins are only supported by Swift version 5.6 and later.
+  #if swift(>=5.6)
     package.dependencies += [
-        .package(url: "https://github.com/apple/swift-cmark.git", branch: "gfm"),
+      .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.1.0")
     ]
-    
-    // SwiftPM command plugins are only supported by Swift version 5.6 and later.
-    #if swift(>=5.6)
-    package.dependencies += [
-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.1.0"),
-    ]
-    #endif
+  #endif
 } else {
-    // Building in the Swift.org CI system, so rely on local versions of dependencies.
-    package.dependencies += [
-        .package(path: "../cmark"),
-    ]
+  // Building in the Swift.org CI system, so rely on local versions of dependencies.
+  package.dependencies += [
+    .package(path: "../cmark")
+  ]
 }

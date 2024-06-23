@@ -10,32 +10,33 @@
 
 /// A paragraph.
 public struct Paragraph: BlockMarkup, BasicInlineContainer {
-    public var _data: _MarkupData
-    init(_ data: _MarkupData) {
-        self._data = data
-    }
+  public var _data: _MarkupData
+  init(_ data: _MarkupData) {
+    self._data = data
+  }
 
-    init(_ raw: RawMarkup) throws {
-        guard case .paragraph = raw.data else {
-            throw RawMarkup.Error.concreteConversionError(from: raw, to: Paragraph.self)
-        }
-        let absoluteRaw = AbsoluteRawMarkup(markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
-        self.init(_MarkupData(absoluteRaw))
+  init(_ raw: RawMarkup) throws {
+    guard case .paragraph = raw.data else {
+      throw RawMarkup.Error.concreteConversionError(from: raw, to: Paragraph.self)
     }
+    let absoluteRaw = AbsoluteRawMarkup(
+      markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
+    self.init(_MarkupData(absoluteRaw))
+  }
 }
 
 // MARK: - Public API
 
-public extension Paragraph {
-    // MARK: InlineContainer
+extension Paragraph {
+  // MARK: InlineContainer
 
-    init<Children: Sequence>(_ newChildren: Children) where Children.Element == InlineMarkup {
-        try! self.init(.paragraph(parsedRange: nil, newChildren.map { $0.raw.markup }))
-    }
+  public init<Children: Sequence>(_ newChildren: Children) where Children.Element == InlineMarkup {
+    try! self.init(.paragraph(parsedRange: nil, newChildren.map { $0.raw.markup }))
+  }
 
-    // MARK: Visitation
+  // MARK: Visitation
 
-    func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
-        return visitor.visitParagraph(self)
-    }
+  public func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
+    return visitor.visitParagraph(self)
+  }
 }

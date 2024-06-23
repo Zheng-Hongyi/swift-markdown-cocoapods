@@ -10,6 +10,6 @@
 
 /// An element that can be converted to plain text without formatting.
 public protocol PlainTextConvertibleMarkup: Markup {
-    /// The plain text content of an element.
-    var plainText: String { get }
+  /// The plain text content of an element.
+  var plainText: String { get }
 }

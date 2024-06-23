@@ -10,15 +10,15 @@
 
 /// A block element that can contain only other block elements and doesn't require any other information.
 public protocol BasicBlockContainer: BlockContainer {
-    /// Create this element from a sequence of block markup elements.
-    init<Children: Sequence>(_ children: Children) where Children.Element == BlockMarkup
+  /// Create this element from a sequence of block markup elements.
+  init<Children: Sequence>(_ children: Children) where Children.Element == BlockMarkup
 }
 
 // MARK: - Public API
 
 extension BasicBlockContainer {
-    /// Create this element with a sequence of block markup elements.
-    public init(_ children: BlockMarkup...) {
-        self.init(children)
-    }
+  /// Create this element with a sequence of block markup elements.
+  public init(_ children: BlockMarkup...) {
+    self.init(children)
+  }
 }

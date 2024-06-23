@@ -10,49 +10,50 @@
 
 /// An inline markup element containing raw HTML.
 public struct InlineHTML: RecurringInlineMarkup, LiteralMarkup {
-    public var _data: _MarkupData
-    init(_ raw: RawMarkup) throws {
-        guard case .inlineHTML = raw.data else {
-            throw RawMarkup.Error.concreteConversionError(from: raw, to: InlineHTML.self)
-        }
-        let absoluteRaw = AbsoluteRawMarkup(markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
-        self.init(_MarkupData(absoluteRaw))
+  public var _data: _MarkupData
+  init(_ raw: RawMarkup) throws {
+    guard case .inlineHTML = raw.data else {
+      throw RawMarkup.Error.concreteConversionError(from: raw, to: InlineHTML.self)
     }
+    let absoluteRaw = AbsoluteRawMarkup(
+      markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
+    self.init(_MarkupData(absoluteRaw))
+  }
 
-    init(_ data: _MarkupData) {
-        self._data = data
-    }
+  init(_ data: _MarkupData) {
+    self._data = data
+  }
 }
 
 // MARK: - Public API
 
-public extension InlineHTML {
-    init(_ literalText: String) {
-        try! self.init(.inlineHTML(parsedRange: nil, html: literalText))
+extension InlineHTML {
+  public init(_ literalText: String) {
+    try! self.init(.inlineHTML(parsedRange: nil, html: literalText))
+  }
+
+  /// The raw HTML text.
+  public var rawHTML: String {
+    get {
+      guard case let .inlineHTML(text) = _data.raw.markup.data else {
+        fatalError("\(self) markup wrapped unexpected \(_data.raw)")
+      }
+      return text
     }
-
-    /// The raw HTML text.
-    var rawHTML: String {
-        get {
-            guard case let .inlineHTML(text) = _data.raw.markup.data else {
-                fatalError("\(self) markup wrapped unexpected \(_data.raw)")
-            }
-            return text
-        }
-        set {
-            _data = _data.replacingSelf(.inlineHTML(parsedRange: nil, html: newValue))
-        }
+    set {
+      _data = _data.replacingSelf(.inlineHTML(parsedRange: nil, html: newValue))
     }
+  }
 
-    // MARK: PlainTextConvertibleMarkup
+  // MARK: PlainTextConvertibleMarkup
 
-    var plainText: String {
-        return rawHTML
-    }
+  public var plainText: String {
+    return rawHTML
+  }
 
-    // MARK: Visitation
+  // MARK: Visitation
 
-    func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
-        return visitor.visitInlineHTML(self)
-    }
+  public func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
+    return visitor.visitInlineHTML(self)
+  }
 }

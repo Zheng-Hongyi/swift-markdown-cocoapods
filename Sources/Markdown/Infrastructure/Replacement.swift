@@ -10,26 +10,26 @@
 
 /// A textual replacement.
 public struct Replacement: CustomStringConvertible, CustomDebugStringConvertible {
-    /// The range of source text to replace.
-    public var range: SourceRange
+  /// The range of source text to replace.
+  public var range: SourceRange
 
-    /// The text to substitute in the ``range``.
-    public var replacementText: String
+  /// The text to substitute in the ``range``.
+  public var replacementText: String
 
-    /// Create a textual replacement.
-    ///
-    /// - parameter range: The range of the source text to replace.
-    /// - parameter replacementText: The text to substitute in the range.
-    public init(range: SourceRange, replacementText: String) {
-      self.range = range
-      self.replacementText = replacementText
-    }
+  /// Create a textual replacement.
+  ///
+  /// - parameter range: The range of the source text to replace.
+  /// - parameter replacementText: The text to substitute in the range.
+  public init(range: SourceRange, replacementText: String) {
+    self.range = range
+    self.replacementText = replacementText
+  }
 
-    public var description: String {
-        return "\(range.diagnosticDescription()): fixit: \(replacementText)"
-    }
+  public var description: String {
+    return "\(range.diagnosticDescription()): fixit: \(replacementText)"
+  }
 
-    public var debugDescription: String {
-        return description
-    }
+  public var debugDescription: String {
+    return description
+  }
 }

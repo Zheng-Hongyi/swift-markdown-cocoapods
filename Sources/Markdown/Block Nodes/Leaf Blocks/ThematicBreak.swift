@@ -10,30 +10,31 @@
 
 /// A thematic break.
 public struct ThematicBreak: BlockMarkup {
-    public var _data: _MarkupData
-    init(_ raw: RawMarkup) throws {
-        guard case .thematicBreak = raw.data else {
-            throw RawMarkup.Error.concreteConversionError(from: raw, to: ThematicBreak.self)
-        }
-        let absoluteRaw = AbsoluteRawMarkup(markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
-        self.init(_MarkupData(absoluteRaw))
+  public var _data: _MarkupData
+  init(_ raw: RawMarkup) throws {
+    guard case .thematicBreak = raw.data else {
+      throw RawMarkup.Error.concreteConversionError(from: raw, to: ThematicBreak.self)
     }
-    init(_ data: _MarkupData) {
-        self._data = data
-    }
+    let absoluteRaw = AbsoluteRawMarkup(
+      markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
+    self.init(_MarkupData(absoluteRaw))
+  }
+  init(_ data: _MarkupData) {
+    self._data = data
+  }
 }
 
 // MARK: - Public API
 
-public extension ThematicBreak {
-    /// Create a thematic break.
-    init() {
-        try! self.init(.thematicBreak(parsedRange: nil))
-    }
+extension ThematicBreak {
+  /// Create a thematic break.
+  public init() {
+    try! self.init(.thematicBreak(parsedRange: nil))
+  }
 
-    // MARK: Visitation
+  // MARK: Visitation
 
-    func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
-        return visitor.visitThematicBreak(self)
-    }
+  public func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
+    return visitor.visitThematicBreak(self)
+  }
 }

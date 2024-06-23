@@ -9,8 +9,8 @@
 */
 
 extension Character {
-    /// The character as a ``Swift.String`` surrounded by single quotation marks `'`.
-    var singleQuoted: String {
-        return "'\(self)'"
-    }
+  /// The character as a ``Swift.String`` surrounded by single quotation marks `'`.
+  var singleQuoted: String {
+    return "'\(self)'"
+  }
 }

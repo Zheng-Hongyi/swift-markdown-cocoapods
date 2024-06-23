@@ -12,43 +12,44 @@
 ///
 /// - note: This element does not yet allow for custom information to be appended and is included for backward compatibility with CommonMark. It wraps raw text.
 public struct CustomInline: RecurringInlineMarkup {
-    public var _data: _MarkupData
-    init(_ raw: RawMarkup) throws {
-        guard case .customInline = raw.data else {
-            throw RawMarkup.Error.concreteConversionError(from: raw, to: CustomInline.self)
-        }
-        let absoluteRaw = AbsoluteRawMarkup(markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
-        self.init(_MarkupData(absoluteRaw))
+  public var _data: _MarkupData
+  init(_ raw: RawMarkup) throws {
+    guard case .customInline = raw.data else {
+      throw RawMarkup.Error.concreteConversionError(from: raw, to: CustomInline.self)
     }
-    
-    init(_ data: _MarkupData) {
-        self._data = data
-    }
+    let absoluteRaw = AbsoluteRawMarkup(
+      markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
+    self.init(_MarkupData(absoluteRaw))
+  }
+
+  init(_ data: _MarkupData) {
+    self._data = data
+  }
 }
 
 // MARK: - Public API
 
-public extension CustomInline {
-    /// Create a custom inline element from raw text.
-    init(_ text: String) {
-        try! self.init(.customInline(parsedRange: nil, text: text))
-    }
+extension CustomInline {
+  /// Create a custom inline element from raw text.
+  public init(_ text: String) {
+    try! self.init(.customInline(parsedRange: nil, text: text))
+  }
 
-    /// The raw inline text of the element.
-    var text: String {
-        guard case let .customInline(text) = _data.raw.markup.data else {
-            fatalError("\(self) markup wrapped unexpected \(_data.raw)")
-        }
-        return text
+  /// The raw inline text of the element.
+  public var text: String {
+    guard case let .customInline(text) = _data.raw.markup.data else {
+      fatalError("\(self) markup wrapped unexpected \(_data.raw)")
     }
+    return text
+  }
 
-    // MARK: PlainTextConvertibleMarkup
+  // MARK: PlainTextConvertibleMarkup
 
-    var plainText: String {
-        return text
-    }
+  public var plainText: String {
+    return text
+  }
 
-    func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
-        return visitor.visitCustomInline(self)
-    }
+  public func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
+    return visitor.visitCustomInline(self)
+  }
 }

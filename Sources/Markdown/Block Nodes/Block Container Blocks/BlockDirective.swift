@@ -63,117 +63,133 @@
 /// This line will line up with the last.
 /// ```
 public struct BlockDirective: BlockContainer {
-    public var _data: _MarkupData
+  public var _data: _MarkupData
 
-    init(_ raw: RawMarkup) throws {
-        guard case .blockDirective = raw.data else {
-            throw RawMarkup.Error.concreteConversionError(from: raw, to: BlockDirective.self)
-        }
-        let absoluteRaw = AbsoluteRawMarkup(markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
-        self.init(_MarkupData(absoluteRaw))
+  init(_ raw: RawMarkup) throws {
+    guard case .blockDirective = raw.data else {
+      throw RawMarkup.Error.concreteConversionError(from: raw, to: BlockDirective.self)
     }
+    let absoluteRaw = AbsoluteRawMarkup(
+      markup: raw, metadata: MarkupMetadata(id: .newRoot(), indexInParent: 0))
+    self.init(_MarkupData(absoluteRaw))
+  }
 
-    init(_ data: _MarkupData) {
-        self._data = data
-    }
+  init(_ data: _MarkupData) {
+    self._data = data
+  }
 }
 
 // MARK: - Public API
 
-public extension BlockDirective {
+extension BlockDirective {
 
-    /// Create a block directive.
-    ///
-    /// - parameter name: The name of the directive.
-    /// - parameter argumentText: The text to use when interpreting arguments to the directive.
-    /// - parameter children: block child elements.
-    init<Children: Sequence>(name: String,
-                             argumentText: String? = nil,
-                             children: Children) where Children.Element == BlockMarkup {
-        let argumentSegments = argumentText?.split(separator: "\n",
-                                                   maxSplits: .max,
-                                                   omittingEmptySubsequences: false).map { lineText -> DirectiveArgumentText.LineSegment in
-                                                    let untrimmedText = String(lineText)
-                                                    return DirectiveArgumentText.LineSegment(untrimmedText: untrimmedText,
-                                                                                             range: nil)
-                                                   } ?? []
-        try! self.init(.blockDirective(name: name,
-                                       nameLocation: nil,
-                                       argumentText: DirectiveArgumentText(segments: argumentSegments),
-                                       parsedRange: nil,
-                                       children.map { $0.raw.markup }))
+  /// Create a block directive.
+  ///
+  /// - parameter name: The name of the directive.
+  /// - parameter argumentText: The text to use when interpreting arguments to the directive.
+  /// - parameter children: block child elements.
+  public init<Children: Sequence>(
+    name: String,
+    argumentText: String? = nil,
+    children: Children
+  ) where Children.Element == BlockMarkup {
+    let argumentSegments =
+      argumentText?.split(
+        separator: "\n",
+        maxSplits: .max,
+        omittingEmptySubsequences: false
+      ).map { lineText -> DirectiveArgumentText.LineSegment in
+        let untrimmedText = String(lineText)
+        return DirectiveArgumentText.LineSegment(
+          untrimmedText: untrimmedText,
+          range: nil)
+      } ?? []
+    try! self.init(
+      .blockDirective(
+        name: name,
+        nameLocation: nil,
+        argumentText: DirectiveArgumentText(segments: argumentSegments),
+        parsedRange: nil,
+        children.map { $0.raw.markup }))
+  }
+
+  /// Create a block directive.
+  ///
+  /// - parameter name: The name of the directive.
+  /// - parameter argumentText: The text to use when interpreting arguments to the directive.
+  /// - parameter children: block child elements.
+  public init(
+    name: String,
+    argumentText: String? = nil,
+    children: BlockMarkup...
+  ) {
+    self.init(name: name, argumentText: argumentText, children: children)
+  }
+
+  /// The name of the directive.
+  public var name: String {
+    get {
+      guard case let .blockDirective(name, _, _) = _data.raw.markup.data else {
+        fatalError("\(self) markup wrapped unexpected \(_data.raw)")
+
+      }
+      return name
     }
-
-    /// Create a block directive.
-    ///
-    /// - parameter name: The name of the directive.
-    /// - parameter argumentText: The text to use when interpreting arguments to the directive.
-    /// - parameter children: block child elements.
-    init(name: String,
-         argumentText: String? = nil,
-         children: BlockMarkup...) {
-        self.init(name: name, argumentText: argumentText, children: children)
+    set {
+      _data = _data.replacingSelf(
+        .blockDirective(
+          name: newValue,
+          nameLocation: nil,
+          argumentText: argumentText,
+          parsedRange: nil,
+          _data.raw.markup.copyChildren()))
     }
+  }
 
-    /// The name of the directive.
-    var name: String {
-        get {
-            guard case let .blockDirective(name, _, _) = _data.raw.markup.data else {
-                fatalError("\(self) markup wrapped unexpected \(_data.raw)")
+  /// The source location from which the directive's name was parsed, if it
+  /// was parsed from source.
+  public var nameLocation: SourceLocation? {
+    guard case let .blockDirective(_, nameLocation, _) = _data.raw.markup.data else {
+      fatalError("\(self) markup wrapped unexpected \(_data.raw)")
 
-            }
-            return name
-        }
-        set {
-            _data = _data.replacingSelf(.blockDirective(name: newValue,
-                                                      nameLocation: nil,
-                                                      argumentText: argumentText,
-                                                      parsedRange: nil,
-                                                      _data.raw.markup.copyChildren()))
-        }
     }
+    return nameLocation
+  }
 
-    /// The source location from which the directive's name was parsed, if it
-    /// was parsed from source.
-    var nameLocation: SourceLocation? {
-        guard case let .blockDirective(_, nameLocation, _) = _data.raw.markup.data else {
-            fatalError("\(self) markup wrapped unexpected \(_data.raw)")
-
-        }
-        return nameLocation
+  /// The source range from which the directive's name was parsed, if it was
+  /// parsed from source.
+  public var nameRange: SourceRange? {
+    guard let start = nameLocation else {
+      return nil
     }
+    let end = SourceLocation(
+      line: start.line, column: start.column + name.utf8.count, source: start.source)
+    return start..<end
+  }
 
-    /// The source range from which the directive's name was parsed, if it was
-    /// parsed from source.
-    var nameRange: SourceRange? {
-        guard let start = nameLocation else {
-            return nil
-        }
-        let end = SourceLocation(line: start.line, column: start.column + name.utf8.count, source: start.source)
-        return start..<end
+  /// The textual content that can be interpreted as arguments to the directive.
+  public var argumentText: DirectiveArgumentText {
+    get {
+      guard case let .blockDirective(_, _, arguments) = _data.raw.markup.data else {
+        fatalError("\(self) markup wrapped unexpected \(_data.raw)")
+
+      }
+      return arguments
     }
-
-    /// The textual content that can be interpreted as arguments to the directive.
-    var argumentText: DirectiveArgumentText {
-        get {
-            guard case let .blockDirective(_, _, arguments) = _data.raw.markup.data else {
-                fatalError("\(self) markup wrapped unexpected \(_data.raw)")
-
-            }
-            return arguments
-        }
-        set {
-            _data = _data.replacingSelf(.blockDirective(name: name,
-                                                      nameLocation: nil,
-                                                      argumentText: newValue,
-                                                      parsedRange: nil,
-                                                      _data.raw.markup.copyChildren()))
-        }
+    set {
+      _data = _data.replacingSelf(
+        .blockDirective(
+          name: name,
+          nameLocation: nil,
+          argumentText: newValue,
+          parsedRange: nil,
+          _data.raw.markup.copyChildren()))
     }
+  }
 
-    // MARK: Visitation
+  // MARK: Visitation
 
-    func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
-        return visitor.visitBlockDirective(self)
-    }
+  public func accept<V: MarkupVisitor>(_ visitor: inout V) -> V.Result {
+    return visitor.visitBlockDirective(self)
+  }
 }

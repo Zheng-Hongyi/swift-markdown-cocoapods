@@ -9,8 +9,8 @@
 */
 
 extension StringProtocol {
-    /// `self` surrounded by single quotation marks `'`.
-    var singleQuoted: String {
-        return "'\(self)'"
-    }
+  /// `self` surrounded by single quotation marks `'`.
+  var singleQuoted: String {
+    return "'\(self)'"
+  }
 }

@@ -11,24 +11,24 @@
 /// A structure to automate incrementing child identifiers while
 /// adding their source ranges during parsing.
 struct RangeTracker {
-    /// The narrowest range that covers all ranges seen so far.
-    private(set) var totalRange: SourceRange
+  /// The narrowest range that covers all ranges seen so far.
+  private(set) var totalRange: SourceRange
 
-    /// Create a range tracker with a starting total range.
-    ///
-    /// - parameter totalRange: the narrowest range that covers all ranges seen so far.
-    init(totalRange: SourceRange) {
-        self.totalRange = totalRange
-    }
+  /// Create a range tracker with a starting total range.
+  ///
+  /// - parameter totalRange: the narrowest range that covers all ranges seen so far.
+  init(totalRange: SourceRange) {
+    self.totalRange = totalRange
+  }
 
-    /// Add a source range and increment the next child identifier.
-    ///
-    /// - parameter range: An optional ``SourceRange``. This may be `nil` for
-    ///   some elements for which cmark doesn't track a range, such as
-    ///   soft breaks.
-    mutating func add(_ range: SourceRange?) {
-        if let range = range {
-            totalRange.widen(toFit: range)
-        }
+  /// Add a source range and increment the next child identifier.
+  ///
+  /// - parameter range: An optional ``SourceRange``. This may be `nil` for
+  ///   some elements for which cmark doesn't track a range, such as
+  ///   soft breaks.
+  mutating func add(_ range: SourceRange?) {
+    if let range = range {
+      totalRange.widen(toFit: range)
     }
+  }
 }
