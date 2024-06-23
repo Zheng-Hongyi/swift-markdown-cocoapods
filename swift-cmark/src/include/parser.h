@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 #include "references.h"
-#include "node.h"
+#include "Markdown/node.h"
 #include "buffer.h"
 
 #ifdef __cplusplus

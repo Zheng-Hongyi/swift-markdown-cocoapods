@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include "cmark-gfm.h"
-#include "cmark-gfm-extension_api.h"
-#include "mutex.h"
+#include "Markdown/cmark-gfm.h"
+#include "Markdown/cmark-gfm-extension_api.h"
+#include "Markdown/mutex.h"
 
 CMARK_DEFINE_LOCK(arena)
 
@@ -95,7 +95,7 @@ static void *arena_calloc(size_t nmem, size_t size) {
   void *ptr = (uint8_t *) chunk->ptr + chunk->used;
   chunk->used += sz;
   *((size_t *) ptr) = sz - sizeof(size_t);
-  
+
   CMARK_UNLOCK(arena);
 
   return (uint8_t *) ptr + sizeof(size_t);

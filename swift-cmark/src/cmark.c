@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
-#include "registry.h"
-#include "node.h"
-#include "houdini.h"
-#include "cmark-gfm.h"
-#include "buffer.h"
+#include "Markdown/registry.h"
+#include "Markdown/node.h"
+#include "Markdown/houdini.h"
+#include "Markdown/cmark-gfm.h"
+#include "Markdown/buffer.h"
 
 cmark_node_type CMARK_NODE_LAST_BLOCK = CMARK_NODE_FOOTNOTE_DEFINITION;
 cmark_node_type CMARK_NODE_LAST_INLINE = CMARK_NODE_ATTRIBUTE;

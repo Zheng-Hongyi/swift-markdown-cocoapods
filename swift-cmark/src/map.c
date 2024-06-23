@@ -1,6 +1,6 @@
-#include "map.h"
-#include "utf8.h"
-#include "parser.h"
+#include "Markdown/map.h"
+#include "Markdown/utf8.h"
+#include "Markdown/parser.h"
 
 // normalize map label:  collapse internal whitespace to single space,
 // remove leading/trailing whitespace, case fold

@@ -1,17 +1,17 @@
 #include <stdbool.h>
 
-#include <cmark-gfm-extension_api.h>
-#include <html.h>
-#include <inlines.h>
-#include <parser.h>
-#include <references.h>
+#include "Markdown/cmark-gfm-extension_api.h"
+#include "Markdown/html.h"
+#include "Markdown/inlines.h"
+#include "Markdown/parser.h"
+#include "Markdown/references.h"
 #include <string.h>
-#include <render.h>
+#include "Markdown/render.h"
 
-#include "ext_scanners.h"
-#include "strikethrough.h"
-#include "table.h"
-#include "cmark-gfm-core-extensions.h"
+#include "Markdown/ext_scanners.h"
+#include "Markdown/strikethrough.h"
+#include "Markdown/table.h"
+#include "Markdown/cmark-gfm-core-extensions.h"
 
 // Limit to prevent a malicious input from causing a denial of service.
 #define MAX_AUTOCOMPLETED_CELLS 0x80000

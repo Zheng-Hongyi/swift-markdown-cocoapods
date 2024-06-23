@@ -5,9 +5,9 @@
 #include <string.h>
 
 #include "cmark-gfm.h"
-#include "node.h"
+#include "Markdown/node.h"
 #include "buffer.h"
-#include "utf8.h"
+#include "Markdown/utf8.h"
 #include "scanners.h"
 #include "render.h"
 #include "syntax_extension.h"

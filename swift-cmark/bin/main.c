@@ -4,12 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "cmark-gfm.h"
-#include "node.h"
-#include "cmark-gfm-extension_api.h"
-#include "syntax_extension.h"
-#include "parser.h"
-#include "registry.h"
+#include "Markdown/cmark-gfm.h"
+#include "Markdown/node.h"
+#include "Markdown/cmark-gfm-extension_api.h"
+#include "Markdown/syntax_extension.h"
+#include "Markdown/parser.h"
+#include "Markdown/registry.h"
 
 #include <cmark-gfm-core-extensions.h>
 

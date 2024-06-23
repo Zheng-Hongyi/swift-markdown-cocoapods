@@ -1,13 +1,13 @@
-#include "cmark-gfm-core-extensions.h"
-#include "autolink.h"
-#include "mutex.h"
-#include "node.h"
-#include "strikethrough.h"
-#include "table.h"
-#include "tagfilter.h"
-#include "tasklist.h"
-#include "registry.h"
-#include "plugin.h"
+#include "Markdown/cmark-gfm-core-extensions.h"
+#include "Markdown/autolink.h"
+#include "Markdown/mutex.h"
+#include "Markdown/node.h"
+#include "Markdown/strikethrough.h"
+#include "Markdown/table.h"
+#include "Markdown/tagfilter.h"
+#include "Markdown/tasklist.h"
+#include "Markdown/registry.h"
+#include "Markdown/plugin.h"
 
 static int core_extensions_registration(cmark_plugin *plugin) {
   cmark_plugin_register_syntax_extension(plugin, create_table_extension());

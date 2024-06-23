@@ -5,7 +5,7 @@
 
 #define CMARK_NO_SHORT_NAMES
 #include <cmark-gfm.h>
-#include "node.h"
+#include "Markdown/node.h"
 #include <cmark-gfm-core-extensions.h>
 
 #include "harness.h"
@@ -1179,7 +1179,7 @@ static void inline_only_opt(test_batch_runner *runner) {
     "> My block quote\n\n"
     "- List item\n\n"
     "[link](https://github.com)\n";
-  
+
   cmark_node *doc = cmark_parse_document(markdown, sizeof(markdown) - 1, CMARK_OPT_INLINE_ONLY);
   char *html = cmark_render_html(doc, CMARK_OPT_DEFAULT, 0);
   STR_EQ(runner, html, "<p># My heading\n"

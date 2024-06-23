@@ -12,22 +12,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "Tools",
-    products: [
-        .executable(name: "markdown-tool", targets: ["markdown-tool"]),
-    ],
-    dependencies: [
-        .package(name: "swift-markdown", path: "../."),
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
-    ],
-    targets: [
-        .executableTarget(
-            name: "markdown-tool",
-            dependencies: [
-                .product(name: "Markdown", package: "swift-markdown"),
-                .product(name: "ArgumentParser", package: "swift-argument-parser")
-            ],
-            path: "markdown-tool"
-        ),
-    ]
+  name: "Tools",
+  products: [
+    .executable(name: "markdown-tool", targets: ["markdown-tool"])
+  ],
+  dependencies: [
+    .package(name: "swift-markdown", path: "../."),
+    .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
+  ],
+  targets: [
+    .executableTarget(
+      name: "markdown-tool",
+      dependencies: [
+        .product(name: "Markdown", package: "swift-markdown"),
+        .product(name: "ArgumentParser", package: "swift-argument-parser"),
+      ],
+      path: "markdown-tool"
+    )
+  ]
 )

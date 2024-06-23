@@ -11,27 +11,29 @@
 import Markdown
 
 struct XMLConverter: MarkupVisitor {
-    mutating func defaultVisit(_ markup: Markup) -> XML {
-        return XML(tag: String(describing: type(of: markup)),
-                   children: markup.children.map { defaultVisit($0) },
-                   text: (markup as? Text).map { $0.string })
-    }
+  mutating func defaultVisit(_ markup: Markup) -> XML {
+    return XML(
+      tag: String(describing: type(of: markup)),
+      children: markup.children.map { defaultVisit($0) },
+      text: (markup as? Text).map { $0.string })
+  }
 }
 
 let source = """
-A ***basic*** document.
-"""
+  A ***basic*** document.
+  """
 let document = Document(parsing: source)
 var xmlConverter = XMLConverter()
 let xml = xmlConverter.visit(document)
 
-print("""
-## Original document structure:
-\(document.debugDescription())
+print(
+  """
+  ## Original document structure:
+  \(document.debugDescription())
 
-## Resulting XML:
-\(xml.format())
-""")
+  ## Resulting XML:
+  \(xml.format())
+  """)
 
 // A very basic XML tree type.
 struct XML {

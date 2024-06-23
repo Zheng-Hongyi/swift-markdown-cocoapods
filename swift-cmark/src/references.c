@@ -1,10 +1,10 @@
 #include <stdbool.h>
 
-#include "cmark-gfm.h"
-#include "parser.h"
-#include "references.h"
-#include "inlines.h"
-#include "chunk.h"
+#include "Markdown/cmark-gfm.h"
+#include "Markdown/parser.h"
+#include "Markdown/references.h"
+#include "Markdown/inlines.h"
+#include "Markdown/chunk.h"
 
 static void reference_free(cmark_map *map, cmark_map_entry *_ref) {
   cmark_reference *ref = (cmark_reference *)_ref;
@@ -62,7 +62,7 @@ void cmark_reference_create_attributes(cmark_map *map, cmark_chunk *label,
   ref->attributes = cmark_clean_attributes(map->mem, attributes);
   ref->entry.age = map->size;
   ref->entry.next = map->refs;
-  
+
   map->refs = (cmark_map_entry *)ref;
   map->size++;
 }

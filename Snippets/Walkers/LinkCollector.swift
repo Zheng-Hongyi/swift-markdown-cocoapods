@@ -10,12 +10,12 @@ struct LinkCollector: MarkupWalker {
 }
 
 let source = """
-A link to a [non-existent website](https://iqnvodkfjd.com).
+  A link to a [non-existent website](https://iqnvodkfjd.com).
 
-A link to a missing resource at <https://www.swift.org/what>.
+  A link to a missing resource at <https://www.swift.org/what>.
 
-A valid link to <https://www.swift.org>.
-"""
+  A valid link to <https://www.swift.org>.
+  """
 let document = Document(parsing: source)
 // snippet.hide
 print("## Checking links in parsed document:")

@@ -10,11 +10,6 @@
 
 import Foundation
 
-#if !SWIFT_MARKDOWN_COCOA_PODS
-  import cmark_gfm
-  import cmark_gfm_extensions
-#endif
-
 /// String-based CommonMark node type identifiers.
 ///
 /// CommonMark node types do have a raw-value enum `cmark_node_type`.

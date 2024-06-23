@@ -9,19 +9,20 @@
 */
 
 import XCTest
+
 @testable import Markdown
 
 class InlineHTMLTests: XCTestCase {
-    func testInlineHTMLRawHTML() {
-        let rawHTML = "<b>bold</b>"
-        let rawHTML2 = "<p>para</p>"
-        
-        let inlineHTML = InlineHTML(rawHTML)
-        XCTAssertEqual(rawHTML, inlineHTML.rawHTML)
+  func testInlineHTMLRawHTML() {
+    let rawHTML = "<b>bold</b>"
+    let rawHTML2 = "<p>para</p>"
 
-        var newInlineHTML = inlineHTML
-        newInlineHTML.rawHTML = rawHTML2
-        XCTAssertEqual(rawHTML2, newInlineHTML.rawHTML)
-        XCTAssertFalse(inlineHTML.isIdentical(to: newInlineHTML))
-    }
+    let inlineHTML = InlineHTML(rawHTML)
+    XCTAssertEqual(rawHTML, inlineHTML.rawHTML)
+
+    var newInlineHTML = inlineHTML
+    newInlineHTML.rawHTML = rawHTML2
+    XCTAssertEqual(rawHTML2, newInlineHTML.rawHTML)
+    XCTAssertFalse(inlineHTML.isIdentical(to: newInlineHTML))
+  }
 }

@@ -8,10 +8,13 @@
  See https://swift.org/CONTRIBUTORS.txt for Swift project authors
 */
 
-@testable import Markdown
 import XCTest
 
-func assertElementDidntChange(_ element: Markup, assertedStructure expected: Markup, expectedId: MarkupIdentifier) {
-    XCTAssertTrue(element.hasSameStructure(as: expected))
-    XCTAssertEqual(element._data.id, expectedId)
+@testable import Markdown
+
+func assertElementDidntChange(
+  _ element: Markup, assertedStructure expected: Markup, expectedId: MarkupIdentifier
+) {
+  XCTAssertTrue(element.hasSameStructure(as: expected))
+  XCTAssertEqual(element._data.id, expectedId)
 }

@@ -1,10 +1,10 @@
 #include <stdbool.h>
 
-#include "tasklist.h"
-#include <parser.h>
-#include <render.h>
-#include <html.h>
-#include "ext_scanners.h"
+#include "Markdown/tasklist.h"
+#include <Markdown/parser.h>
+#include <Markdown/render.h>
+#include <Markdown/html.h>
+#include "Markdown/ext_scanners.h"
 
 typedef enum {
   CMARK_TASKLIST_NOCHECKED,

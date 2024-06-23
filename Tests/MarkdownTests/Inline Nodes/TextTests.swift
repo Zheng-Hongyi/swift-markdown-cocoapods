@@ -9,18 +9,19 @@
 */
 
 import XCTest
+
 @testable import Markdown
 
 class TextTests: XCTestCase {
-    func testWithText() {
-        let string = "OK"
-        let text = Text(string)
-        XCTAssertEqual(string, text.string)
-        
-        let string2 = "Changed"
-        var newText = text
-        newText.string = string2
-        XCTAssertEqual(string2, newText.string)
-        XCTAssertFalse(text.isIdentical(to: newText))
-    }
+  func testWithText() {
+    let string = "OK"
+    let text = Text(string)
+    XCTAssertEqual(string, text.string)
+
+    let string2 = "Changed"
+    var newText = text
+    newText.string = string2
+    XCTAssertEqual(string2, newText.string)
+    XCTAssertFalse(text.isIdentical(to: newText))
+  }
 }

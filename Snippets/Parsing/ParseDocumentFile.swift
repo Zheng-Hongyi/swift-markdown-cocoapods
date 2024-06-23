@@ -4,7 +4,8 @@ import Foundation
 import Markdown
 
 // snippet.hide
-let inputFileURL = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent("test.md")
+let inputFileURL = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(
+  "test.md")
 // snippet.show
 let document = try Document(parsing: inputFileURL)
 

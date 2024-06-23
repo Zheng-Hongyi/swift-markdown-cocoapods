@@ -9,11 +9,12 @@
 */
 
 import XCTest
+
 @testable import Markdown
 
 final class SoftBreakTests: XCTestCase {
-    /// Tests that creation doesn't crash.
-    func testSoftBreak() {
-        _ = SoftBreak()
-    }
+  /// Tests that creation doesn't crash.
+  func testSoftBreak() {
+    _ = SoftBreak()
+  }
 }

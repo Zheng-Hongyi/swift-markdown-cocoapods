@@ -8,36 +8,38 @@
  See https://swift.org/CONTRIBUTORS.txt for Swift project authors
 */
 
-import XCTest
 import Foundation
 import Markdown
+import XCTest
 
 final class DocumentTests: XCTestCase {
-    func testDocumentFromSequence() {
-        let children = [
-            Paragraph(Text("First")),
-            Paragraph(Text("Second")),
-        ]
-        let document = Document(children)
-        let expectedDump = """
-            Document
-            ├─ Paragraph
-            │  └─ Text "First"
-            └─ Paragraph
-               └─ Text "Second"
-            """
-        XCTAssertEqual(expectedDump, document.debugDescription())
-    }
+  func testDocumentFromSequence() {
+    let children = [
+      Paragraph(Text("First")),
+      Paragraph(Text("Second")),
+    ]
+    let document = Document(children)
+    let expectedDump = """
+      Document
+      ├─ Paragraph
+      │  └─ Text "First"
+      └─ Paragraph
+         └─ Text "Second"
+      """
+    XCTAssertEqual(expectedDump, document.debugDescription())
+  }
 
-    func testParseURL() {
-        let readmeURL = URL(fileURLWithPath: #file)
-            .deletingLastPathComponent() // Block Nodes
-            .appendingPathComponent("..") // MarkupTests
-            .appendingPathComponent("..") // Tests
-            .appendingPathComponent("..") // Project
-            .appendingPathComponent("README.md")
-        XCTAssertNoThrow(try Document(parsing: readmeURL))
-        XCTAssertThrowsError(try Document(parsing: URL(fileURLWithPath: #file)
-            .appendingPathComponent("doesntexist")))
-    }
+  func testParseURL() {
+    let readmeURL = URL(fileURLWithPath: #file)
+      .deletingLastPathComponent()  // Block Nodes
+      .appendingPathComponent("..")  // MarkupTests
+      .appendingPathComponent("..")  // Tests
+      .appendingPathComponent("..")  // Project
+      .appendingPathComponent("README.md")
+    XCTAssertNoThrow(try Document(parsing: readmeURL))
+    XCTAssertThrowsError(
+      try Document(
+        parsing: URL(fileURLWithPath: #file)
+          .appendingPathComponent("doesntexist")))
+  }
 }

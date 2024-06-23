@@ -11,18 +11,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "cmark_ctype.h"
-#include "syntax_extension.h"
-#include "parser.h"
-#include "cmark-gfm.h"
-#include "node.h"
-#include "references.h"
-#include "utf8.h"
-#include "scanners.h"
-#include "inlines.h"
-#include "houdini.h"
-#include "buffer.h"
-#include "footnotes.h"
+#include "Markdown/cmark_ctype.h"
+#include "Markdown/syntax_extension.h"
+#include "Markdown/parser.h"
+#include "Markdown/cmark-gfm.h"
+#include "Markdown/node.h"
+#include "Markdown/references.h"
+#include "Markdown/utf8.h"
+#include "Markdown/scanners.h"
+#include "Markdown/inlines.h"
+#include "Markdown/houdini.h"
+#include "Markdown/buffer.h"
+#include "Markdown/footnotes.h"
 
 #define CODE_INDENT 4
 #define TAB_STOP 4
@@ -1082,8 +1082,8 @@ static cmark_node *check_open_blocks(cmark_parser *parser, cmark_chunk *input,
   *all_matched = false;
   cmark_node *container = parser->root;
   cmark_node_type cont_type;
-    
-    
+
+
 
   while (S_last_child_is_open(container)) {
     container = container->last_child;

@@ -7,34 +7,35 @@
 import Markdown
 
 struct TextReplacer: MarkupRewriter {
-    var target: String
-    var replacement: String
+  var target: String
+  var replacement: String
 
-    init(replacing target: String, with replacement: String?) {
-        precondition(!target.isEmpty)
-        self.target = target
-        self.replacement = replacement ?? ""
-    }
+  init(replacing target: String, with replacement: String?) {
+    precondition(!target.isEmpty)
+    self.target = target
+    self.replacement = replacement ?? ""
+  }
 
-    func visitText(_ text: Text) -> Markup? {
-        return Text(text.string.replacingOccurrences(of: target, with: replacement))
-    }
+  func visitText(_ text: Text) -> Markup? {
+    return Text(text.string.replacingOccurrences(of: target, with: replacement))
+  }
 }
 
 let source = """
-The word "foo" will be replaced with "bar".
-"""
+  The word "foo" will be replaced with "bar".
+  """
 let document = Document(parsing: source)
 var replacer = TextReplacer(replacing: "foo", with: "bar")
 let newDocument = replacer.visit(document) as! Document
 
-print("""
-## Original Markdown structure:
-\(document.debugDescription())
+print(
+  """
+  ## Original Markdown structure:
+  \(document.debugDescription())
 
-## New Markdown structure:
-\(newDocument.debugDescription())
-""")
+  ## New Markdown structure:
+  \(newDocument.debugDescription())
+  """)
 // snippet.hide
 /*
  This source file is part of the Swift.org open source project

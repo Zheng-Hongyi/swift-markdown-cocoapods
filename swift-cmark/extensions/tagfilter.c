@@ -1,5 +1,5 @@
-#include "tagfilter.h"
-#include <parser.h>
+#include "Markdown/tagfilter.h"
+#include "Markdown/parser.h"
 #include <ctype.h>
 
 static const char *blacklist[] = {

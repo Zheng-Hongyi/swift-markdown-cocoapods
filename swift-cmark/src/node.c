@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "mutex.h"
-#include "node.h"
-#include "syntax_extension.h"
+#include "Markdown/mutex.h"
+#include "Markdown/node.h"
+#include "Markdown/syntax_extension.h"
 
 CMARK_DEFINE_LOCK(nextflag)
 CMARK_DEFINE_LOCK(safety)

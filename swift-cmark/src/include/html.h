@@ -2,7 +2,7 @@
 #define CMARK_HTML_H
 
 #include "buffer.h"
-#include "node.h"
+#include "Markdown/node.h"
 
 inline
 static void cmark_html_render_cr(cmark_strbuf *html) {
@@ -12,7 +12,7 @@ static void cmark_html_render_cr(cmark_strbuf *html) {
 
 #define BUFFER_SIZE 100
 
-inline 
+inline
 static void cmark_html_render_sourcepos(cmark_node *node, cmark_strbuf *html, int options) {
   char buffer[BUFFER_SIZE];
   if (CMARK_OPT_SOURCEPOS & options) {

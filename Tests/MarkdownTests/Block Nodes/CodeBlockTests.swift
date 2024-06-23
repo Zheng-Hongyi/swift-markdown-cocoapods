@@ -9,40 +9,41 @@
 */
 
 import XCTest
+
 @testable import Markdown
 
 class CodeBlockTests: XCTestCase {
-    var testCodeBlock: CodeBlock {
-        let language = "swift"
-        let code = "func foo() {}"
-        let codeBlock = CodeBlock(language: language, code)
-        XCTAssertEqual(.some(language), codeBlock.language)
-        XCTAssertEqual(code, codeBlock.code)
-        return codeBlock
-    }
+  var testCodeBlock: CodeBlock {
+    let language = "swift"
+    let code = "func foo() {}"
+    let codeBlock = CodeBlock(language: language, code)
+    XCTAssertEqual(.some(language), codeBlock.language)
+    XCTAssertEqual(code, codeBlock.code)
+    return codeBlock
+  }
 
-    func testCodeBlockLanguage() {
-        let codeBlock = testCodeBlock
-        var newCodeBlock = codeBlock
-        newCodeBlock.language = "c"
+  func testCodeBlockLanguage() {
+    let codeBlock = testCodeBlock
+    var newCodeBlock = codeBlock
+    newCodeBlock.language = "c"
 
-        XCTAssertEqual(.some("c"), newCodeBlock.language)
-        XCTAssertFalse(codeBlock.isIdentical(to: newCodeBlock))
+    XCTAssertEqual(.some("c"), newCodeBlock.language)
+    XCTAssertFalse(codeBlock.isIdentical(to: newCodeBlock))
 
-        var codeBlockWithoutLanguage = newCodeBlock
-        codeBlockWithoutLanguage.language = nil
-        XCTAssertNil(codeBlockWithoutLanguage.language)
-        XCTAssertFalse(codeBlock.isIdentical(to: codeBlockWithoutLanguage))
-    }
+    var codeBlockWithoutLanguage = newCodeBlock
+    codeBlockWithoutLanguage.language = nil
+    XCTAssertNil(codeBlockWithoutLanguage.language)
+    XCTAssertFalse(codeBlock.isIdentical(to: codeBlockWithoutLanguage))
+  }
 
-    func testCodeBlockCode() {
-        let codeBlock = testCodeBlock
-        let newCode = "func bar() {}"
-        var newCodeBlock = codeBlock
-        newCodeBlock.code = newCode
+  func testCodeBlockCode() {
+    let codeBlock = testCodeBlock
+    let newCode = "func bar() {}"
+    var newCodeBlock = codeBlock
+    newCodeBlock.code = newCode
 
-        XCTAssertEqual(newCode, newCodeBlock.code)
-        XCTAssertEqual(codeBlock.language, newCodeBlock.language)
-        XCTAssertFalse(codeBlock.isIdentical(to: newCodeBlock))
-    }
+    XCTAssertEqual(newCode, newCodeBlock.code)
+    XCTAssertEqual(codeBlock.language, newCodeBlock.language)
+    XCTAssertFalse(codeBlock.isIdentical(to: newCodeBlock))
+  }
 }

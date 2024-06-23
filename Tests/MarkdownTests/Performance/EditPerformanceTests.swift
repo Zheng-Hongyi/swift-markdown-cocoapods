@@ -8,53 +8,53 @@
  See https://swift.org/CONTRIBUTORS.txt for Swift project authors
 */
 
-import XCTest
 import Markdown
+import XCTest
 
 final class EditPerformanceTests: XCTestCase {
-#if os(Windows)
-#if DEBUG
-    static let maxDepth = 625
-#else
-    static let maxDepth = 1250
-#endif
-#else
+  #if os(Windows)
+    #if DEBUG
+      static let maxDepth = 625
+    #else
+      static let maxDepth = 1250
+    #endif
+  #else
     static let maxDepth = 5000
-#endif
-    /// Test the performance of changing a leaf in an unrealistically deep markup tree.
-    func testChangeTextInDeepTree() {
-        func buildDeepListItem(depth: Int) -> ListItem {
-            guard depth < EditPerformanceTests.maxDepth else {
-                return ListItem(Paragraph(Text("A"), Text("B"), Text("C")))
-            }
-            return ListItem(buildDeepList(depth: depth + 1))
-        }
-
-        func buildDeepList(depth: Int = 0) -> UnorderedList {
-            guard depth < EditPerformanceTests.maxDepth else {
-                return UnorderedList(buildDeepListItem(depth: depth))
-            }
-            return UnorderedList(buildDeepListItem(depth: depth + 1))
-        }
-
-        let list = buildDeepList()
-        var deepChild: Markup = list
-        while let child = deepChild.child(at: 0) {
-            deepChild = child
-        }
-
-        var deepText = (deepChild as! Text)
-        measure {
-            deepText.string = "Z"
-        }
+  #endif
+  /// Test the performance of changing a leaf in an unrealistically deep markup tree.
+  func testChangeTextInDeepTree() {
+    func buildDeepListItem(depth: Int) -> ListItem {
+      guard depth < EditPerformanceTests.maxDepth else {
+        return ListItem(Paragraph(Text("A"), Text("B"), Text("C")))
+      }
+      return ListItem(buildDeepList(depth: depth + 1))
     }
 
-    /// Test the performance of change an element among unrealistically many siblings.
-    func testChangeTextInWideParagraph() {
-        let paragraph = Paragraph((0..<10000).map { _ in Text("OK") })
-        var firstText = paragraph.child(at: 0) as! Text
-        measure {
-            firstText.string = "OK"
-        }
+    func buildDeepList(depth: Int = 0) -> UnorderedList {
+      guard depth < EditPerformanceTests.maxDepth else {
+        return UnorderedList(buildDeepListItem(depth: depth))
+      }
+      return UnorderedList(buildDeepListItem(depth: depth + 1))
     }
+
+    let list = buildDeepList()
+    var deepChild: Markup = list
+    while let child = deepChild.child(at: 0) {
+      deepChild = child
+    }
+
+    var deepText = (deepChild as! Text)
+    measure {
+      deepText.string = "Z"
+    }
+  }
+
+  /// Test the performance of change an element among unrealistically many siblings.
+  func testChangeTextInWideParagraph() {
+    let paragraph = Paragraph((0..<10000).map { _ in Text("OK") })
+    var firstText = paragraph.child(at: 0) as! Text
+    measure {
+      firstText.string = "OK"
+    }
+  }
 }

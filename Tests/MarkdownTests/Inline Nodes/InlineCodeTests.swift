@@ -9,20 +9,21 @@
 */
 
 import XCTest
+
 @testable import Markdown
 
 class InlineCodeTests: XCTestCase {
-    func testInlineCodeString() {
-        let text = "foo()"
-        let text2 = "bar()"
-        let inlineCode = InlineCode(text)
+  func testInlineCodeString() {
+    let text = "foo()"
+    let text2 = "bar()"
+    let inlineCode = InlineCode(text)
 
-        XCTAssertEqual(text, inlineCode.code)
+    XCTAssertEqual(text, inlineCode.code)
 
-        var inlineCodeWithText2 = inlineCode
-        inlineCodeWithText2.code = text2
+    var inlineCodeWithText2 = inlineCode
+    inlineCodeWithText2.code = text2
 
-        XCTAssertEqual(text2, inlineCodeWithText2.code)
-        XCTAssertFalse(inlineCode.isIdentical(to: inlineCodeWithText2))
-    }
+    XCTAssertEqual(text2, inlineCodeWithText2.code)
+    XCTAssertFalse(inlineCode.isIdentical(to: inlineCodeWithText2))
+  }
 }

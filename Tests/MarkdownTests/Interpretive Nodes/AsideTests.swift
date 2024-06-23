@@ -9,68 +9,69 @@
 */
 
 import XCTest
+
 @testable import Markdown
 
 class AsideTests: XCTestCase {
-    func testTags() {
-        for kind in Aside.Kind.allCases {
-            let source = "> \(kind.rawValue): This is a `\(kind.rawValue)` aside."
-            let document = Document(parsing: source)
-            let blockQuote = document.child(at: 0) as! BlockQuote
-            let aside = Aside(blockQuote)
-            XCTAssertEqual(kind, aside.kind)
+  func testTags() {
+    for kind in Aside.Kind.allCases {
+      let source = "> \(kind.rawValue): This is a `\(kind.rawValue)` aside."
+      let document = Document(parsing: source)
+      let blockQuote = document.child(at: 0) as! BlockQuote
+      let aside = Aside(blockQuote)
+      XCTAssertEqual(kind, aside.kind)
 
-            // Note that the initial text in the paragraph has been adjusted
-            // to after the tag.
-            let expectedRootDump = """
-                Document
-                └─ BlockQuote
-                   └─ Paragraph
-                      ├─ Text "This is a "
-                      ├─ InlineCode `\(kind.rawValue)`
-                      └─ Text " aside."
-                """
-            XCTAssertEqual(expectedRootDump, aside.content[0].root.debugDescription())
-        }
+      // Note that the initial text in the paragraph has been adjusted
+      // to after the tag.
+      let expectedRootDump = """
+        Document
+        └─ BlockQuote
+           └─ Paragraph
+              ├─ Text "This is a "
+              ├─ InlineCode `\(kind.rawValue)`
+              └─ Text " aside."
+        """
+      XCTAssertEqual(expectedRootDump, aside.content[0].root.debugDescription())
     }
+  }
 
-    func testMissingTag() {
-        let source = "> This is a regular block quote."
-        let document = Document(parsing: source)
-        let blockQuote = document.child(at: 0) as! BlockQuote
-        let aside = Aside(blockQuote)
-        XCTAssertEqual(.note, aside.kind)
-        XCTAssertTrue(aside.content[0].root.isIdentical(to: document))
-    }
+  func testMissingTag() {
+    let source = "> This is a regular block quote."
+    let document = Document(parsing: source)
+    let blockQuote = document.child(at: 0) as! BlockQuote
+    let aside = Aside(blockQuote)
+    XCTAssertEqual(.note, aside.kind)
+    XCTAssertTrue(aside.content[0].root.isIdentical(to: document))
+  }
 
-    func testCustomTag() {
-        let source = "> Hmm: This is something"
-        let document = Document(parsing: source)
-        let blockQuote = document.child(at: 0) as! BlockQuote
-        let aside = Aside(blockQuote)
-        XCTAssertEqual(.init(rawValue: "Hmm")!, aside.kind)
-        
-        // Note that the initial text in the paragraph has been adjusted
-        // to after the tag.
-        let expectedRootDump = """
-            Document
-            └─ BlockQuote
-               └─ Paragraph
-                  └─ Text "This is something"
-            """
-        XCTAssertEqual(expectedRootDump, aside.content[0].root.debugDescription())
-    }
+  func testCustomTag() {
+    let source = "> Hmm: This is something"
+    let document = Document(parsing: source)
+    let blockQuote = document.child(at: 0) as! BlockQuote
+    let aside = Aside(blockQuote)
+    XCTAssertEqual(.init(rawValue: "Hmm")!, aside.kind)
 
-    func testNoParagraphAtStart() {
-        let source = """
-            > - A
-            > - List?
-            """
-        let document = Document(parsing: source)
-        let blockQuote = document.child(at: 0) as! BlockQuote
-        let aside = Aside(blockQuote)
-        XCTAssertEqual(.note, aside.kind)
-        XCTAssertTrue(aside.content[0].root.isIdentical(to: document))
-    }
+    // Note that the initial text in the paragraph has been adjusted
+    // to after the tag.
+    let expectedRootDump = """
+      Document
+      └─ BlockQuote
+         └─ Paragraph
+            └─ Text "This is something"
+      """
+    XCTAssertEqual(expectedRootDump, aside.content[0].root.debugDescription())
+  }
+
+  func testNoParagraphAtStart() {
+    let source = """
+      > - A
+      > - List?
+      """
+    let document = Document(parsing: source)
+    let blockQuote = document.child(at: 0) as! BlockQuote
+    let aside = Aside(blockQuote)
+    XCTAssertEqual(.note, aside.kind)
+    XCTAssertTrue(aside.content[0].root.isIdentical(to: document))
+  }
 
 }

@@ -9,56 +9,57 @@
 */
 
 import XCTest
+
 @testable import Markdown
 
 class SymbolLinkTests: XCTestCase {
-    func testSymbolLinkDestination() {
-        let destination = "destination"
-        let symbolLink = SymbolLink(destination: destination)
-        XCTAssertEqual(destination, symbolLink.destination)
-        XCTAssertEqual(0, symbolLink.childCount)
+  func testSymbolLinkDestination() {
+    let destination = "destination"
+    let symbolLink = SymbolLink(destination: destination)
+    XCTAssertEqual(destination, symbolLink.destination)
+    XCTAssertEqual(0, symbolLink.childCount)
 
-        let newDestination = "newdestination"
-        var newSymbolLink = symbolLink
-        newSymbolLink.destination = newDestination
-        XCTAssertEqual(newDestination, newSymbolLink.destination)
-        XCTAssertFalse(symbolLink.isIdentical(to: newSymbolLink))
-    }
+    let newDestination = "newdestination"
+    var newSymbolLink = symbolLink
+    newSymbolLink.destination = newDestination
+    XCTAssertEqual(newDestination, newSymbolLink.destination)
+    XCTAssertFalse(symbolLink.isIdentical(to: newSymbolLink))
+  }
 
-    func testDetectionFromInlineCode() {
-        let source = "``foo()``"
-        do { // option on
-            let document = Document(parsing: source, options: .parseSymbolLinks)
-            let expectedDump = """
-                Document @1:1-1:10
-                └─ Paragraph @1:1-1:10
-                   └─ SymbolLink @1:1-1:10 destination: foo()
-                """
-            XCTAssertEqual(expectedDump, document.debugDescription(options: .printSourceLocations))
-        }
-        do { // option off
-            let document = Document(parsing: source)
-            let expectedDump = """
-                Document @1:1-1:10
-                └─ Paragraph @1:1-1:10
-                   └─ InlineCode @1:1-1:10 `foo()`
-                """
-            XCTAssertEqual(expectedDump, document.debugDescription(options: .printSourceLocations))
-        }
-    }
-
-    func testMultilineSymbolLink() {
-        let source = """
-        Test of a ``multi
-        line symbolink``
+  func testDetectionFromInlineCode() {
+    let source = "``foo()``"
+    do {  // option on
+      let document = Document(parsing: source, options: .parseSymbolLinks)
+      let expectedDump = """
+        Document @1:1-1:10
+        └─ Paragraph @1:1-1:10
+           └─ SymbolLink @1:1-1:10 destination: foo()
         """
-        let document = Document(parsing: source, options: .parseSymbolLinks)
-        let expectedDump = """
-            Document @1:1-2:17
-            └─ Paragraph @1:1-2:17
-               ├─ Text @1:1-1:11 "Test of a "
-               └─ SymbolLink @1:11-2:17 destination: multi line symbolink
-            """
-        XCTAssertEqual(expectedDump, document.debugDescription(options: .printSourceLocations))
+      XCTAssertEqual(expectedDump, document.debugDescription(options: .printSourceLocations))
     }
+    do {  // option off
+      let document = Document(parsing: source)
+      let expectedDump = """
+        Document @1:1-1:10
+        └─ Paragraph @1:1-1:10
+           └─ InlineCode @1:1-1:10 `foo()`
+        """
+      XCTAssertEqual(expectedDump, document.debugDescription(options: .printSourceLocations))
+    }
+  }
+
+  func testMultilineSymbolLink() {
+    let source = """
+      Test of a ``multi
+      line symbolink``
+      """
+    let document = Document(parsing: source, options: .parseSymbolLinks)
+    let expectedDump = """
+      Document @1:1-2:17
+      └─ Paragraph @1:1-2:17
+         ├─ Text @1:1-1:11 "Test of a "
+         └─ SymbolLink @1:11-2:17 destination: multi line symbolink
+      """
+    XCTAssertEqual(expectedDump, document.debugDescription(options: .printSourceLocations))
+  }
 }

@@ -8,45 +8,45 @@
  See https://swift.org/CONTRIBUTORS.txt for Swift project authors
 */
 
-import XCTest
 import Markdown
+import XCTest
 
 final class MarkupChildrenPerformanceTests: XCTestCase {
-    /// Iteration over the children should be fast: no heap allocation should be necessary.
+  /// Iteration over the children should be fast: no heap allocation should be necessary.
+  let paragraph = Paragraph((0..<10000).map { _ in Text("OK") })
+  func testIterateChildrenForward() {
+    measure {
+      for child in paragraph.children {
+        _ = child
+      }
+    }
+  }
+
+  /// Iteration over the children in reverse should be fast: no heap allocation should be necessary.
+  func testIterateChildrenReversed() {
     let paragraph = Paragraph((0..<10000).map { _ in Text("OK") })
-    func testIterateChildrenForward() {
-        measure {
-            for child in paragraph.children {
-                _ = child
-            }
-        }
+    measure {
+      for child in paragraph.children.reversed() {
+        _ = child
+      }
     }
+  }
 
-    /// Iteration over the children in reverse should be fast: no heap allocation should be necessary.
-    func testIterateChildrenReversed() {
-        let paragraph = Paragraph((0..<10000).map { _ in Text("OK") })
-        measure {
-            for child in paragraph.children.reversed() {
-                _ = child
-            }
-        }
+  func testDropFirst() {
+    let paragraph = Paragraph((0..<10000).map { _ in Text("OK") })
+    measure {
+      for child in paragraph.children.dropFirst(5000) {
+        _ = child
+      }
     }
+  }
 
-    func testDropFirst() {
-        let paragraph = Paragraph((0..<10000).map { _ in Text("OK") })
-        measure {
-            for child in paragraph.children.dropFirst(5000) {
-                _ = child
-            }
-        }
+  func testSuffix() {
+    let paragraph = Paragraph((0..<10000).map { _ in Text("OK") })
+    measure {
+      for child in paragraph.children.suffix(5000) {
+        _ = child
+      }
     }
-
-    func testSuffix() {
-        let paragraph = Paragraph((0..<10000).map { _ in Text("OK") })
-        measure {
-            for child in paragraph.children.suffix(5000) {
-                _ = child
-            }
-        }
-    }
+  }
 }

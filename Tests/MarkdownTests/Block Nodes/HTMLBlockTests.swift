@@ -9,18 +9,19 @@
 */
 
 import XCTest
+
 @testable import Markdown
 
 class HTMLTestsTests: XCTestCase {
-    func testHTMLBlockRawHTML() {
-        let rawHTML = "<b>Hi!</b>"
-        let html = HTMLBlock(rawHTML)
-        XCTAssertEqual(rawHTML, html.rawHTML)
+  func testHTMLBlockRawHTML() {
+    let rawHTML = "<b>Hi!</b>"
+    let html = HTMLBlock(rawHTML)
+    XCTAssertEqual(rawHTML, html.rawHTML)
 
-        let newRawHTML = "<hr />"
-        var newHTML = html
-        newHTML.rawHTML = newRawHTML
-        XCTAssertEqual(newRawHTML, newHTML.rawHTML)
-        XCTAssertFalse(html.isIdentical(to: newHTML))
-    }
+    let newRawHTML = "<hr />"
+    var newHTML = html
+    newHTML.rawHTML = newRawHTML
+    XCTAssertEqual(newRawHTML, newHTML.rawHTML)
+    XCTAssertFalse(html.isIdentical(to: newHTML))
+  }
 }

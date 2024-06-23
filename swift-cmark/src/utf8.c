@@ -3,7 +3,7 @@
 #include <assert.h>
 
 #include "cmark_ctype.h"
-#include "utf8.h"
+#include "Markdown/utf8.h"
 
 static const int8_t utf8proc_utf8class[256] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,

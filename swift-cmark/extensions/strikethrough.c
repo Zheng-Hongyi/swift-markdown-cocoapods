@@ -1,8 +1,8 @@
 #include <stdbool.h>
 
-#include "strikethrough.h"
-#include <parser.h>
-#include <render.h>
+#include "Markdown/strikethrough.h"
+#include <Markdown/parser.h>
+#include <Markdown/render.h>
 
 cmark_node_type CMARK_NODE_STRIKETHROUGH;
 
