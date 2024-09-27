@@ -6,7 +6,7 @@
 #include "cmark-gfm.h"
 #include "utf8.h"
 #include "render.h"
-#include "node.h"
+#include "Markdown/node.h"
 #include "syntax_extension.h"
 
 static inline void S_cr(cmark_renderer *renderer) {

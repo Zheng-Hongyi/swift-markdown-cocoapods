@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "mutex.h"
-#include "node.h"
+#include "Markdown/node.h"
 #include "syntax_extension.h"
 
 CMARK_DEFINE_LOCK(nextflag)

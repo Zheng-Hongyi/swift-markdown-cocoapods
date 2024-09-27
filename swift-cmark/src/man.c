@@ -5,7 +5,7 @@
 #include <string.h>
 
 #include "cmark-gfm.h"
-#include "node.h"
+#include "Markdown/node.h"
 #include "buffer.h"
 #include "utf8.h"
 #include "render.h"
@@ -18,7 +18,7 @@
 #define LIST_NUMBER_SIZE 20
 
 // Functions to convert cmark_nodes to groff man strings.
-static void S_outc(cmark_renderer *renderer, cmark_node *node, 
+static void S_outc(cmark_renderer *renderer, cmark_node *node,
                    cmark_escaping escape, int32_t c,
                    unsigned char nextc) {
   (void)(nextc);
