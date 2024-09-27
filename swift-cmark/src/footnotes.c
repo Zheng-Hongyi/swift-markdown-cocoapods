@@ -1,8 +1,8 @@
-#include "Markdown/cmark-gfm.h"
-#include "Markdown/parser.h"
-#include "Markdown/footnotes.h"
-#include "Markdown/inlines.h"
-#include "Markdown/chunk.h"
+#include "cmark-gfm.h"
+#include "parser.h"
+#include "footnotes.h"
+#include "inlines.h"
+#include "chunk.h"
 
 static void footnote_free(cmark_map *map, cmark_map_entry *_ref) {
   cmark_footnote *ref = (cmark_footnote *)_ref;

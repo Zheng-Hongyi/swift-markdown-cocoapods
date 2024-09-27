@@ -4,7 +4,7 @@
 
 #include "buffer.h"
 #include "houdini.h"
-#include "Markdown/utf8.h"
+#include "utf8.h"
 #include "entities.inc"
 
 #if !defined(__has_builtin)

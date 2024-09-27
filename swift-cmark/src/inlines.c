@@ -3,16 +3,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "Markdown/cmark_ctype.h"
-#include "Markdown/node.h"
-#include "Markdown/parser.h"
-#include "Markdown/references.h"
-#include "Markdown/cmark-gfm.h"
-#include "Markdown/houdini.h"
-#include "Markdown/utf8.h"
-#include "Markdown/scanners.h"
-#include "Markdown/inlines.h"
-#include "Markdown/syntax_extension.h"
+#include "cmark_ctype.h"
+#include "node.h"
+#include "parser.h"
+#include "references.h"
+#include "cmark-gfm.h"
+#include "houdini.h"
+#include "utf8.h"
+#include "scanners.h"
+#include "inlines.h"
+#include "syntax_extension.h"
 
 static const char *EMDASH = "\xE2\x80\x94";
 static const char *ENDASH = "\xE2\x80\x93";

@@ -29,9 +29,14 @@ public struct Strong: RecurringInlineMarkup, BasicInlineContainer {
 extension Strong {
   // MARK: BasicInlineContainer
 
-  public init<Children>(_ newChildren: Children)
-  where Children: Sequence, Children.Element == InlineMarkup {
-    try! self.init(.strong(parsedRange: nil, newChildren.map { $0.raw.markup }))
+  public init(_ newChildren: some Sequence<InlineMarkup>) {
+    self.init(newChildren, inheritSourceRange: false)
+  }
+
+  public init(_ newChildren: some Sequence<InlineMarkup>, inheritSourceRange: Bool) {
+    let rawChildren = newChildren.map { $0.raw.markup }
+    let parsedRange = inheritSourceRange ? rawChildren.parsedRange : nil
+    try! self.init(.strong(parsedRange: parsedRange, rawChildren))
   }
 
   // MARK: PlainTextConvertibleMarkup

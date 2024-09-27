@@ -8,6 +8,12 @@
  See https://swift.org/CONTRIBUTORS.txt for Swift project authors
 */
 
+#if compiler(>=6.0)
+  internal import CAtomic
+#else
+  @_implementationOnly import CAtomic
+#endif
+
 /// A wrapper for a 64-bit unsigned atomic singleton counter.
 struct AtomicCounter {
   /// The current counter value.

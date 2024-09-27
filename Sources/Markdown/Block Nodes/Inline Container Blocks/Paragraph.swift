@@ -30,8 +30,14 @@ public struct Paragraph: BlockMarkup, BasicInlineContainer {
 extension Paragraph {
   // MARK: InlineContainer
 
-  public init<Children: Sequence>(_ newChildren: Children) where Children.Element == InlineMarkup {
-    try! self.init(.paragraph(parsedRange: nil, newChildren.map { $0.raw.markup }))
+  public init(_ newChildren: some Sequence<InlineMarkup>) {
+    self.init(newChildren, inheritSourceRange: false)
+  }
+
+  public init(_ newChildren: some Sequence<InlineMarkup>, inheritSourceRange: Bool) {
+    let rawChildren = newChildren.map { $0.raw.markup }
+    let parsedRange = inheritSourceRange ? rawChildren.parsedRange : nil
+    try! self.init(.paragraph(parsedRange: parsedRange, rawChildren))
   }
 
   // MARK: Visitation

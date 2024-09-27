@@ -68,8 +68,14 @@ extension Document {
   }
 
   /// Create a document from a sequence of block markup elements.
-  public init<Children: Sequence>(_ children: Children) where Children.Element == BlockMarkup {
-    try! self.init(.document(parsedRange: nil, children.map { $0.raw.markup }))
+  public init(_ children: some Sequence<BlockMarkup>) {
+    self.init(children, inheritSourceRange: false)
+  }
+
+  public init(_ children: some Sequence<BlockMarkup>, inheritSourceRange: Bool) {
+    let rawChildren = children.map { $0.raw.markup }
+    let parsedRange = inheritSourceRange ? rawChildren.parsedRange : nil
+    try! self.init(.document(parsedRange: parsedRange, rawChildren))
   }
 
   // MARK: Visitation

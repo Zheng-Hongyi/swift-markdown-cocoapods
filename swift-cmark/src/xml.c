@@ -5,7 +5,7 @@
 #include <string.h>
 
 #include "cmark-gfm.h"
-#include "Markdown/node.h"
+#include "node.h"
 #include "buffer.h"
 #include "houdini.h"
 #include "syntax_extension.h"

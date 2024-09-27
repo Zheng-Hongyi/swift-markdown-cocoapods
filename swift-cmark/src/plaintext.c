@@ -1,6 +1,6 @@
 #include <stdbool.h>
 
-#include "Markdown/node.h"
+#include "node.h"
 #include "syntax_extension.h"
 #include "render.h"
 

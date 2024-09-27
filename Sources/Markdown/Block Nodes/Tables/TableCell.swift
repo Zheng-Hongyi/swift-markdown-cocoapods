@@ -71,16 +71,25 @@ extension Table.Cell {
 
   // MARK: BasicInlineContainer
 
-  public init<Children>(_ children: Children)
-  where Children: Sequence, Children.Element == InlineMarkup {
+  public init(_ children: some Sequence<InlineMarkup>) {
     self.init(colspan: 1, rowspan: 1, children)
   }
 
-  public init<Children>(colspan: UInt, rowspan: UInt, _ children: Children)
-  where Children: Sequence, Children.Element == InlineMarkup {
+  public init(_ children: some Sequence<InlineMarkup>, inheritSourceRange: Bool) {
+    self.init(colspan: 1, rowspan: 1, children, inheritSourceRange: inheritSourceRange)
+  }
+
+  public init(colspan: UInt, rowspan: UInt, _ children: some Sequence<InlineMarkup>) {
+    self.init(colspan: colspan, rowspan: rowspan, children, inheritSourceRange: false)
+  }
+
+  public init(
+    colspan: UInt, rowspan: UInt, _ children: some Sequence<InlineMarkup>, inheritSourceRange: Bool
+  ) {
+    let rawChildren = children.map { $0.raw.markup }
+    let parsedRange = inheritSourceRange ? rawChildren.parsedRange : nil
     try! self.init(
-      RawMarkup.tableCell(
-        parsedRange: nil, colspan: colspan, rowspan: rowspan, children.map { $0.raw.markup }))
+      .tableCell(parsedRange: parsedRange, colspan: colspan, rowspan: rowspan, rawChildren))
   }
 
   // MARK: Visitation
