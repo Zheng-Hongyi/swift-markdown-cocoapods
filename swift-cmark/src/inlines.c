@@ -9,7 +9,7 @@
 #include "references.h"
 #include "cmark-gfm.h"
 #include "houdini.h"
-#include "utf8.h"
+#include "Markdown/utf8.h"
 #include "scanners.h"
 #include "inlines.h"
 #include "syntax_extension.h"

@@ -7,8 +7,8 @@
 #include "cmark-gfm.h"
 #include "Markdown/node.h"
 #include "buffer.h"
-#include "utf8.h"
-#include "render.h"
+#include "Markdown/utf8.h"
+#include "Markdown/render.h"
 #include "syntax_extension.h"
 
 #define OUT(s, wrap, escaping) renderer->out(renderer, node, s, wrap, escaping)

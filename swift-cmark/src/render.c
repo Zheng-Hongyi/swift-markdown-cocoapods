@@ -4,7 +4,7 @@
 #include "buffer.h"
 #include "chunk.h"
 #include "cmark-gfm.h"
-#include "utf8.h"
+#include "Markdown/utf8.h"
 #include "render.h"
 #include "Markdown/node.h"
 #include "syntax_extension.h"
